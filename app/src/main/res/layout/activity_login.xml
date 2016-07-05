@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".login"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    >
+
+    <ImageView
+        android:layout_width="130dp"
+        android:layout_height="150dp"
+        android:contentDescription="@string/adurcup_white_logo"
+        android:src="@drawable/white_logo"
+        android:id="@+id/adurcup_logo"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@color/colorBackGroundGrey"
+        android:padding="16dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/body"
+        >
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:hint="@string/mobile_no"
+                android:id="@+id/mobile"
+                />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textWebPassword"
+                android:hint="@string/password"
+                android:id="@+id/password"
+                />
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:id="@+id/footer"
+        >
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorLightGrey"
+            android:layout_margin="20dp"
+            android:text="@string/login"
+            android:id="@+id/login"
+            />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:padding="20dp"
+                android:text="@string/forgotPassword"
+                android:id="@+id/forgotPassword"
+                />
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:visibility="gone"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/progressBar"
+                />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:gravity="center"
+            android:padding="20dp"
+            android:text="@string/new_in_adurcup"
+            android:id="@+id/registerHere"
+            />
+    </LinearLayout>
+</LinearLayout>

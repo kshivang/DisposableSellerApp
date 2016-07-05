@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">Disposable Seller App</string>
+
+    <!--Image description Strings-->
+    <string name="adurcup_white_logo">TradeMark Adurcup</string>
+    <string name="mobile_verification_icon">Mobile Verification Icon</string>
+    <string name="dashed_circle">Dashed Circle</string>
+    <string name="edit_icon">Edit Icon</string>
+
+    <!--Button Strings-->
+    <string name="login">Login</string>
+    <string name="signup">Sign Up</string>
+    <string name="change_password">Change</string>
+    <string name="verify">Continue</string>
+
+    <!--TextView Strings-->
+    <string name="mobile_no">Mobile No.</string>
+    <string name="password">Password</string>
+    <string name="forgotPassword">Forgot password?</string>
+    <string name="back_to_login">Back to <u>Login</u></string>
+    <string name="new_in_adurcup">New in Adurcup?\n <u>Register Here</u></string>
+    <string name="verification_text">Let\'s start by verifying your \n Mobile number</string>
+    <string name="verification_details">We will send a OTP via SMS to \n verify you mobile number</string>
+    <string name="waiting_to_detect">Waiting to detect the verification code sent to</string>
+    <string name="zero">0</string>
+    <string name="or">OR</string>
+    <string name="enter_otp">Enter OTP</string>
+
+    <!--Error and Toast messages-->
+    <string name="necessary_fields_missing">Necessary field/s missing</string>
+    <string name="network_connection_error">Check internet connection</string>
+    <string name="check_your_mobile_number">Check your mobile number</string>
+    <string name="insufficient_digit">Incomplete mobile number</string>
+    <string name="invalid_character">Only digit and \'+91\' at starting position is allowed</string>
+    <string name="empty_necessary_field">Empty necessary field!</string>
+    <string name="not_registered">Mobile number not registered!</string>
+    <string name="already_registered">You are already registered!</string>
+    <string name="signup_or_login">Sign up or login with different mobile number</string>
+    <string name="change_or_login">Change password or login with known credentials</string>
+
+
+    <!--urls-->
+    <string name="login_url">http://api.adurcup.com/v4/login</string>
+    <string name="check_user_url">http://api.adurcup.com/v4/user_exist</string>
+    <string name="otp_url">http://enterprise.smsgupshup.com/apps/TwoFactorAuth/incoming.php?phone=91</string>
+
+    <string name="otp_key">key=cbff58cd05e9b29c4ee5628a0c5e7f9a</string>
+
+</resources>

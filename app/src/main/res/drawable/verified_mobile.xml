@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/dashed_circle"
+        android:width="120dp"
+        android:height="120dp"
+        />
+    <item android:drawable="@drawable/ic_phone_android"
+        android:width="64dp"
+        android:height="64dp"
+        android:gravity="center"
+        />
+    <item android:drawable="@drawable/ic_check"
+        android:gravity="center"
+        android:width="24dp"
+        android:height="24dp"
+        />
+</layer-list>
