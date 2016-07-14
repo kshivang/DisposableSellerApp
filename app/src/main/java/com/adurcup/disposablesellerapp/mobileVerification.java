@@ -60,7 +60,7 @@ public class mobileVerification extends AppCompatActivity {
         findViewById(R.id.login).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(mobileVerification.this, login.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                startActivity(new Intent(mobileVerification.this, login.class));
             }
         });
 
@@ -239,7 +239,7 @@ public class mobileVerification extends AppCompatActivity {
         builder.show();
     }
 
-    private boolean otpRequest(String url){
+    private void otpRequest(String url){
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -248,7 +248,6 @@ public class mobileVerification extends AppCompatActivity {
                         progressBar.setVisibility(View.INVISIBLE);
                         userLocalStore.setUserStatus(MobileNo, Nav - 2);
                         startActivity(new Intent(mobileVerification.this, otpVerification.class));
-                        finish();
 
                     }
                 }, new Response.ErrorListener() {
@@ -266,7 +265,13 @@ public class mobileVerification extends AppCompatActivity {
             }
         };
         appController.addToRequestQueue(stringRequest, tag_mobile_verification);
-        return false;
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        setIntent(intent);
     }
 
     @Override

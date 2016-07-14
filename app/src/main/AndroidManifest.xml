@@ -17,9 +17,14 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".login"/>
-        <activity android:name=".mobileVerification"/>
-        <activity android:name=".otpVerification"/>
+        <activity android:name=".login"
+            android:launchMode="singleTask"/>
+        <activity android:name=".mobileVerification"
+            android:launchMode="singleTask"/>
+        <activity android:name=".otpVerification"
+            android:launchMode="singleTask"/>
+        <activity android:name=".signUp"/>
+        <activity android:name=".newPassword"/>
     </application>
 
 </manifest>

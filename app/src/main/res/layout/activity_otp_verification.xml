@@ -14,7 +14,7 @@
         android:textSize="64sp"
         android:fontFamily="sans-serif-light"
         android:text="@string/zero"
-        android:id="@+id/circle"
+        android:id="@+id/countDown"
         android:layout_margin="32dp"
         />
 
@@ -96,11 +96,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
+        android:id="@+id/progressBar"
         />
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp"
+        android:padding="8dp"
+        android:textColor="@android:color/white"
+        android:gravity="center_horizontal"
+        android:text="@string/resend_otp"
+        android:visibility="gone"
+        android:id="@+id/resendOtp"
+    />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
         android:textColor="@android:color/white"
         android:gravity="center_horizontal"
         android:text="@string/back_to_login"

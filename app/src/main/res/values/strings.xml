@@ -25,6 +25,7 @@
     <string name="zero">0</string>
     <string name="or">OR</string>
     <string name="enter_otp">Enter OTP</string>
+    <string name="resend_otp">Resend OTP ></string>
 
     <!--Error and Toast messages-->
     <string name="necessary_fields_missing">Necessary field/s missing</string>
@@ -37,6 +38,12 @@
     <string name="already_registered">You are already registered!</string>
     <string name="signup_or_login">Sign up or login with different mobile number</string>
     <string name="change_or_login">Change password or login with known credentials</string>
+    <string name="wrong_otp_format">OTP is 6 digit number send via sms</string>
+    <string name="new_otp_send">New OTP sent</string>
+    <string name="resend_old_otp">OTP resent</string>
+    <string name="otp_expired">OTP expired resending new OTP</string>
+    <string name="invalid_otp">Invalid OTP</string>
+    <string name="down_server">Down Server</string>
 
 
     <!--urls-->
