@@ -6,7 +6,7 @@ package com.adurcup.disposablesellerapp;
  */
 public class Constant {
 
-    // Request KEY for fetching data
+    // Request KEYs for fetching data
     public static final String KEY_API_KEY = "apiKey";
     public static final String KEY_NAME = "name";
     public static final String KEY_EMAIL = "email";
@@ -14,16 +14,19 @@ public class Constant {
     public static final String KEY_ERROR = "error";
     public static final String KEY_MESSAGE = "message";
     public static final String KEY_PASSWORD = "password";
-
-    // Intent Key for fetching intent data
     public static final String KEY_NAV = "nav";
 
+    // Intent Keys for fetching intent data
     public static final int FLAG_LOGGED_OUT = 0;
     public static final int FLAG_LOGGED_IN = 1;
     public static final int FLAG_WAITING_FOR_SMS_SIGNUP = 2;
     public static final int FLAG_WAITING_FOR_SMS_FORGOT = 3;
     public static final int FLAG_SIGN_UP = 4;
     public static final int FLAG_NEW_PASSWORD = 5;
+
+    // Keys for case structure
+    public static final int CHECK_MOBILE_NUM = 0;
+    public static final int CHECK_PASSWORD = 1;
 
     public static final String DROID_LOGO = "M 150.00,7.00\n" +
             "           C 153.83,7.52 299.55,147.67 299.67,152.00\n" +

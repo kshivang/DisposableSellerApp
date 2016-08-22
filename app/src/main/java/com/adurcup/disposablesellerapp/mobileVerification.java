@@ -7,11 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -64,61 +61,34 @@ public class mobileVerification extends AppCompatActivity {
             }
         });
 
-        final EditText etMobile = tilMobile.getEditText();
+        String SavedContact = userLocalStore.getLoggedInUser(Constant.KEY_CONTACT);
 
-        if(etMobile != null) {
+        if (SavedContact == null || SavedContact.length() == 0) {
+            tilMobile.setError(getString(R.string.empty_necessary_field));
+        } else {
+            if (tilMobile.getEditText() != null)
+                tilMobile.getEditText().setText(SavedContact);
+        }
 
-            String SavedContact = userLocalStore.getLoggedInUser(Constant.KEY_CONTACT);
+        final inputTextHandler MobileNumHandler = new inputTextHandler(this,
+                Constant.CHECK_MOBILE_NUM, tilMobile);
+        MobileNo = MobileNumHandler.getValue();
 
-            if (SavedContact == null || SavedContact.length() == 0) {
-                tilMobile.setError(getString(R.string.empty_necessary_field));
-            } else {
-                etMobile.setText(SavedContact);
-                MobileNo = SavedContact;
-            }
-
-            tilMobile.getEditText().addTextChangedListener(new TextWatcher() {
-
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+        findViewById(R.id.verify).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (view != null) {
+                    InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(
+                            Context.INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
 
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                MobileNo = MobileNumHandler.getValue();
+                if (MobileNo != null && MobileNo.length() != 0) {
 
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-                    MobileNo = etMobile.getText().toString();
-                    if(MobileNo.length() == 0) {
-                        tilMobile.setError(getString(R.string.empty_necessary_field));
-                    }
-                    else if (!MobileNo.matches("^(((\\+)?91)?|(0)?)([6-9])[0-9]{9}(?!\\d)")) {
-                        tilMobile.setErrorEnabled(true);
-                        if (!MobileNo.matches("^(\\+)?[0-9]+")) {
-                            tilMobile.setError(getString(R.string.invalid_character));
-                        }else if (MobileNo.length() < 13){
-                            tilMobile.setError(getString(R.string.insufficient_digit));
-                        } else {
-                            tilMobile.setError(getString(R.string.check_your_mobile_number));
-                        }
-                    } else
-                        tilMobile.setErrorEnabled(false);
-                }
-            });
-
-            findViewById(R.id.verify).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (view != null) {
-                        InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(
-                                Context.INPUT_METHOD_SERVICE);
-                        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                    }
                     progressBar.setVisibility(View.VISIBLE);
-                    if(tilMobile.getError() == null){
+
+                    if (tilMobile.getError() == null) {
                         MobileNo = MobileNo.substring(MobileNo.length() - 10);
                         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                                 getString(R.string.check_user_url),
@@ -131,7 +101,7 @@ public class mobileVerification extends AppCompatActivity {
                                             Boolean NewUser = object.getBoolean(Constant.KEY_ERROR);
 
                                             if (NewUser) {
-                                                if(Nav == Constant.FLAG_SIGN_UP){
+                                                if (Nav == Constant.FLAG_SIGN_UP) {
                                                     otpRequest(getString(R.string.otp_url) + MobileNo + "&" + getString(R.string.otp_key));
                                                 } else {
                                                     progressBar.setVisibility(View.INVISIBLE);
@@ -156,7 +126,7 @@ public class mobileVerification extends AppCompatActivity {
                                                             });
                                                 }
                                             } else {
-                                                if(Nav == Constant.FLAG_NEW_PASSWORD){
+                                                if (Nav == Constant.FLAG_NEW_PASSWORD) {
                                                     otpRequest(getString(R.string.otp_url) + MobileNo + "&" + getString(R.string.otp_key));
                                                 } else {
                                                     progressBar.setVisibility(View.INVISIBLE);
@@ -209,7 +179,7 @@ public class mobileVerification extends AppCompatActivity {
                             }
 
                             @Override
-                            public Priority getPriority(){
+                            public Priority getPriority() {
                                 return Priority.IMMEDIATE;
                             }
                         };
@@ -217,11 +187,15 @@ public class mobileVerification extends AppCompatActivity {
                         appController.addToRequestQueue(stringRequest, tag_mobile_verification);
                     } else {
                         progressBar.setVisibility(View.INVISIBLE);
-                        Toast.makeText(mobileVerification.this, tilMobile.getError().toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mobileVerification.this,
+                                tilMobile.getError().toString(), Toast.LENGTH_SHORT).show();
                     }
+                } else {
+                    Toast.makeText(mobileVerification.this,
+                            getString(R.string.empty_necessary_field), Toast.LENGTH_SHORT).show();
                 }
-            });
-        }
+            }
+        });
     }
 
     private void ShowDialog(String title, CharSequence message, String PositiveButton,

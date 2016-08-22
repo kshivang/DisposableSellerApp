@@ -60,16 +60,21 @@ public class splashScreen extends AwesomeSplash {
 
         switch (userLocalStore.getUserLoggedIn()){
 
-            case Constant.FLAG_LOGGED_IN : startActivity(new Intent(splashScreen.this, main.class));
+            case Constant.FLAG_LOGGED_IN : startActivity(
+                    new Intent(splashScreen.this, main.class));
                 return;
-            case Constant.FLAG_LOGGED_OUT : startActivity(new Intent(splashScreen.this, login.class));
+            case Constant.FLAG_LOGGED_OUT : startActivity(
+                    new Intent(splashScreen.this, login.class));
                 return;
-            case Constant.FLAG_SIGN_UP : startActivity(new Intent(splashScreen.this, signUp.class));
+            case Constant.FLAG_SIGN_UP : startActivity(
+                    new Intent(splashScreen.this, signUp.class));
                 return;
-            case Constant.FLAG_NEW_PASSWORD : startActivity(new Intent(splashScreen.this, newPassword.class));
+            case Constant.FLAG_NEW_PASSWORD : startActivity(
+                    new Intent(splashScreen.this, newPassword.class));
                 return;
             case Constant.FLAG_WAITING_FOR_SMS_FORGOT :
-            case Constant.FLAG_WAITING_FOR_SMS_SIGNUP: startActivity(new Intent(splashScreen.this, otpVerification.class));
+            case Constant.FLAG_WAITING_FOR_SMS_SIGNUP: startActivity(
+                    new Intent(splashScreen.this, otpVerification.class));
         }
     }
 

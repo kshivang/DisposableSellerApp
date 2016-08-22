@@ -25,6 +25,7 @@
             android:launchMode="singleTask"/>
         <activity android:name=".signUp"/>
         <activity android:name=".newPassword"/>
+        <activity android:name=".main"/>
     </application>
 
 </manifest>

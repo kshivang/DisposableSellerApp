@@ -28,6 +28,7 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/mobileInput"
             >
             <EditText
                 android:layout_width="match_parent"
@@ -42,6 +43,7 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/passwordInput"
             >
             <EditText
                 android:layout_width="match_parent"

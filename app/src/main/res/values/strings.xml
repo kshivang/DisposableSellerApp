@@ -31,9 +31,10 @@
     <string name="necessary_fields_missing">Necessary field/s missing</string>
     <string name="network_connection_error">Check internet connection</string>
     <string name="check_your_mobile_number">Check your mobile number</string>
+    <string name="short_password">Password must be greater than 6 characters</string>
     <string name="insufficient_digit">Incomplete mobile number</string>
     <string name="invalid_character">Only digit and \'+91\' at starting position is allowed</string>
-    <string name="empty_necessary_field">Empty necessary field!</string>
+    <string name="empty_necessary_field">This is necessary field</string>
     <string name="not_registered">Mobile number not registered!</string>
     <string name="already_registered">You are already registered!</string>
     <string name="signup_or_login">Sign up or login with different mobile number</string>
@@ -47,10 +48,10 @@
 
 
     <!--urls-->
-    <string name="login_url">http://api.adurcup.com/v4/login</string>
-    <string name="check_user_url">http://api.adurcup.com/v4/user_exist</string>
-    <string name="otp_url">http://enterprise.smsgupshup.com/apps/TwoFactorAuth/incoming.php?phone=91</string>
+    <string name="login_url" translatable="false">http://api.adurcup.com/v4/login</string>
+    <string name="check_user_url" translatable="false">http://api.adurcup.com/v4/user_exist</string>
+    <string name="otp_url" translatable="false">http://enterprise.smsgupshup.com/apps/TwoFactorAuth/incoming.php?phone=91</string>
 
-    <string name="otp_key">key=cbff58cd05e9b29c4ee5628a0c5e7f9a</string>
+    <string name="otp_key" translatable="false">key=cbff58cd05e9b29c4ee5628a0c5e7f9a</string>
 
 </resources>
