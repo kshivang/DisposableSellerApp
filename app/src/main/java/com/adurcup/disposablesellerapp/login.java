@@ -35,7 +35,7 @@ public class login extends AppCompatActivity {
 
     String tag_login_req = "login_request";
     AppController appController;
-    String MobileNo;
+    String MobileNum;
 
     @Override
     protected void onCreate(Bundle savedInstances) {
@@ -76,7 +76,7 @@ public class login extends AppCompatActivity {
          * Check for entered mobile num format
          * Note: mobileNumHandler.getValue() give the current value of text input
          */
-        MobileNo = mobileNumHandler.getValue();
+        MobileNum = mobileNumHandler.getValue();
 
 
         /**
@@ -113,14 +113,18 @@ public class login extends AppCompatActivity {
                 }
                 /**
                  * Check whether all necessary field are not empty
-                 * Note: We must update the MobileNo variable for latest value of text input
+                 * Note: We must update the MobileNum variable for latest value of text input
                  */
-                MobileNo = mobileNumHandler.getValue();
+                MobileNum = mobileNumHandler.getValue();
                 String Password = passwordHandler.getValue();
-                if ((MobileNo != null) &&( MobileNo.length() > 0) &&
+                if ((MobileNum != null) &&( MobileNum.length() > 0) &&
                         (Password != null) &&
                         (Password.length() > 0)) {
-                    onLogin(MobileNo, Password, userLocalStore);
+                    /**
+                     * We have to take just last ten digit of mobile num
+                     */
+                    MobileNum = MobileNum.substring(MobileNum.length() - 10);
+                    onLogin(MobileNum, Password, userLocalStore);
                 } else
                     Toast.makeText(login.this, getString(R.string.necessary_fields_missing),
                             Toast.LENGTH_SHORT).show();
@@ -156,6 +160,16 @@ public class login extends AppCompatActivity {
                 .animate(bottomAction).
                 play();
     }
+
+    /**
+     * onStop clear all pending requests
+     */
+    @Override
+    protected void onStop(){
+        super.onStop();
+        appController.cancelPendingRequests(tag_login_req);
+    }
+
 
     /**
      * This function handle login request
@@ -231,14 +245,5 @@ public class login extends AppCompatActivity {
         };
         stringRequest.setShouldCache(false);
         appController.addToRequestQueue(stringRequest, tag_login_req);
-    }
-
-    /**
-     * onStop clear all pending requests
-     */
-    @Override
-    protected void onStop(){
-        super.onStop();
-        appController.cancelPendingRequests(tag_login_req);
     }
 }

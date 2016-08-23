@@ -27,13 +27,13 @@ import java.util.Map;
 
 /**
  * Created by kshivang on 01/07/16.
- * This Activity if for mobile no. verification
+ * This Activity if for mobile num verification
  */
 public class mobileVerification extends AppCompatActivity {
 
     private AppController appController;
     private String tag_mobile_verification = "Mobile Verification",
-            MobileNo;
+            MobileNum;
     private int Nav;
     private UserLocalStore userLocalStore;
     private ProgressBar progressBar;
@@ -44,14 +44,13 @@ public class mobileVerification extends AppCompatActivity {
 
         setContentView(R.layout.activity_mobile_verification);
 
-        Nav = getIntent().getIntExtra(Constant.KEY_NAV, Constant.FLAG_SIGN_UP);
-
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-
+        /**
+         * Initialisation of variable
+         */
         appController = AppController.getInstance();
-
         userLocalStore = new UserLocalStore(this);
-
+        Nav = getIntent().getIntExtra(Constant.KEY_NAV, Constant.FLAG_SIGN_UP);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
         final TextInputLayout tilMobile = (TextInputLayout) findViewById(R.id.mobileInput);
 
         findViewById(R.id.login).setOnClickListener(new View.OnClickListener() {
@@ -61,8 +60,10 @@ public class mobileVerification extends AppCompatActivity {
             }
         });
 
+        /**
+         * if mobile num already saved fill editView with it
+         */
         String SavedContact = userLocalStore.getLoggedInUser(Constant.KEY_CONTACT);
-
         if (SavedContact == null || SavedContact.length() == 0) {
             tilMobile.setError(getString(R.string.empty_necessary_field));
         } else {
@@ -70,9 +71,12 @@ public class mobileVerification extends AppCompatActivity {
                 tilMobile.getEditText().setText(SavedContact);
         }
 
+        /**
+         * Handle textInput Error Message
+         */
         final inputTextHandler MobileNumHandler = new inputTextHandler(this,
                 Constant.CHECK_MOBILE_NUM, tilMobile);
-        MobileNo = MobileNumHandler.getValue();
+        MobileNum = MobileNumHandler.getValue();
 
         findViewById(R.id.verify).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,108 +87,20 @@ public class mobileVerification extends AppCompatActivity {
                     inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
 
-                MobileNo = MobileNumHandler.getValue();
-                if (MobileNo != null && MobileNo.length() != 0) {
+                MobileNum = MobileNumHandler.getValue();
+
+                if (MobileNum != null && MobileNum.length() != 0) {
 
                     progressBar.setVisibility(View.VISIBLE);
 
                     if (tilMobile.getError() == null) {
-                        MobileNo = MobileNo.substring(MobileNo.length() - 10);
-                        StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                                getString(R.string.check_user_url),
-                                new Response.Listener<String>() {
 
-                                    @Override
-                                    public void onResponse(String response) {
-                                        try {
-                                            JSONObject object = new JSONObject(response);
-                                            Boolean NewUser = object.getBoolean(Constant.KEY_ERROR);
+                        /**
+                         * We have to take just last ten digit of mobile num
+                         */
+                        MobileNum = MobileNum.substring(MobileNum.length() - 10);
+                        onCheckUserExist();
 
-                                            if (NewUser) {
-                                                if (Nav == Constant.FLAG_SIGN_UP) {
-                                                    otpRequest(getString(R.string.otp_url) + MobileNo + "&" + getString(R.string.otp_key));
-                                                } else {
-                                                    progressBar.setVisibility(View.INVISIBLE);
-                                                    ShowDialog(getString(R.string.not_registered),
-                                                            getString(R.string.signup_or_login),
-                                                            getString(R.string.signup),
-                                                            new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(DialogInterface dialogInterface, int i) {
-                                                                    Nav = Constant.FLAG_SIGN_UP;
-                                                                    otpRequest(getString(R.string.otp_url) + MobileNo + "&" + getString(R.string.otp_key));
-                                                                    dialogInterface.dismiss();
-                                                                }
-                                                            },
-                                                            getString(R.string.login),
-                                                            new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(DialogInterface dialogInterface, int i) {
-                                                                    dialogInterface.dismiss();
-                                                                    finish();
-                                                                }
-                                                            });
-                                                }
-                                            } else {
-                                                if (Nav == Constant.FLAG_NEW_PASSWORD) {
-                                                    otpRequest(getString(R.string.otp_url) + MobileNo + "&" + getString(R.string.otp_key));
-                                                } else {
-                                                    progressBar.setVisibility(View.INVISIBLE);
-                                                    ShowDialog(getString(R.string.already_registered),
-                                                            getString(R.string.change_or_login),
-                                                            getString(R.string.change_password),
-                                                            new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(DialogInterface dialogInterface, int i) {
-                                                                    Nav = Constant.FLAG_NEW_PASSWORD;
-                                                                    otpRequest(getString(R.string.otp_url) + MobileNo + "&" + getString(R.string.otp_key));
-                                                                    dialogInterface.dismiss();
-                                                                }
-                                                            },
-                                                            getString(R.string.login),
-                                                            new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(DialogInterface dialogInterface, int i) {
-                                                                    dialogInterface.dismiss();
-                                                                    finish();
-                                                                }
-                                                            });
-                                                }
-                                            }
-
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                },
-                                new Response.ErrorListener() {
-
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-
-                                        progressBar.setVisibility(View.INVISIBLE);
-                                        VolleyLog.d(tag_mobile_verification, error.networkResponse);
-                                        Toast.makeText(mobileVerification.this, getString(
-                                                R.string.network_connection_error),
-                                                Toast.LENGTH_SHORT).show();
-                                    }
-                                }) {
-
-                            @Override
-                            protected Map<String, String> getParams() throws AuthFailureError {
-
-                                Map<String, String> params = new HashMap<>();
-                                params.put(Constant.KEY_CONTACT, MobileNo);
-                                return params;
-                            }
-
-                            @Override
-                            public Priority getPriority() {
-                                return Priority.IMMEDIATE;
-                            }
-                        };
-                        stringRequest.setShouldCache(false);
-                        appController.addToRequestQueue(stringRequest, tag_mobile_verification);
                     } else {
                         progressBar.setVisibility(View.INVISIBLE);
                         Toast.makeText(mobileVerification.this,
@@ -198,6 +114,88 @@ public class mobileVerification extends AppCompatActivity {
         });
     }
 
+
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        setIntent(intent);
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        appController.cancelPendingRequests(tag_mobile_verification);
+    }
+
+    /**
+     * This check for Mobile num exist on server or not
+     * and decide behaviour accordingly
+     */
+    private void onCheckUserExist() {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                getString(R.string.check_user_url),
+                new Response.Listener<String>() {
+
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            Boolean NewUser = object.getBoolean(Constant.KEY_ERROR);
+
+                            if (NewUser) {
+                                onNewUser();
+                            } else {
+                                onExistedUser();
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        progressBar.setVisibility(View.INVISIBLE);
+                        VolleyLog.d(tag_mobile_verification, error.networkResponse);
+                        Toast.makeText(mobileVerification.this, getString(
+                                R.string.network_connection_error),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put(Constant.KEY_CONTACT, MobileNum);
+                return params;
+            }
+
+            @Override
+            public Priority getPriority() {
+                return Priority.IMMEDIATE;
+            }
+        };
+        stringRequest.setShouldCache(false);
+        appController.addToRequestQueue(stringRequest, tag_mobile_verification);
+    }
+
+    /**
+     * Show Dialog with positive and negative Button
+     * @param title: This is title of Dialog
+     * @param message: This is message to be shown in Dialog
+     * @param PositiveButton: This is the Positive Button Name
+     * @param ocPositive: This is the Positive Button onClickListener
+     * @param NegativeButton: This is the Negative Button Name
+     * @param ocNegative: This is the Negative Button onClickListener
+     */
     private void ShowDialog(String title, CharSequence message, String PositiveButton,
                             DialogInterface.OnClickListener ocPositive, String NegativeButton,
                             DialogInterface.OnClickListener ocNegative) {
@@ -213,14 +211,85 @@ public class mobileVerification extends AppCompatActivity {
         builder.show();
     }
 
-    private void otpRequest(String url){
+    /**
+     * For new User sign up or or prompt to sign up
+     */
+    private void onNewUser (){
+        if (Nav == Constant.FLAG_SIGN_UP) {
+            onOTPRequest(getString(R.string.otp_url) +
+                    MobileNum + "&" + getString(R.string.otp_key));
+        } else {
+            progressBar.setVisibility(View.INVISIBLE);
+            ShowDialog(getString(R.string.not_registered),
+                    getString(R.string.signup_or_login),
+                    getString(R.string.signup),
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Nav = Constant.FLAG_SIGN_UP;
+                            onOTPRequest(getString(R.string.otp_url) + MobileNum + "&" +
+                                    getString(R.string.otp_key));
+                            dialogInterface.dismiss();
+                        }
+                    },
+                    getString(R.string.login),
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            finish();
+                        }
+                    });
+        }
+    }
+
+    /**
+     * For Existed User New Password or Prompt for new Password
+     */
+    private void onExistedUser () {
+        if (Nav == Constant.FLAG_NEW_PASSWORD) {
+            onOTPRequest(getString(R.string.otp_url) + MobileNum +
+                    "&" + getString(R.string.otp_key));
+        } else {
+            progressBar.setVisibility(View.INVISIBLE);
+            ShowDialog(getString(R.string.already_registered),
+                    getString(R.string.change_or_login),
+                    getString(R.string.change_password),
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Nav = Constant.FLAG_NEW_PASSWORD;
+                            onOTPRequest(getString(R.string.otp_url) + MobileNum +
+                                    "&" + getString(R.string.otp_key));
+                            dialogInterface.dismiss();
+                        }
+                    },
+                    getString(R.string.login),
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            finish();
+                        }
+                    });
+        }
+    }
+
+    /**
+     * Handle OTP api requests
+     * @param url: URL for get request
+     */
+    private void onOTPRequest (String url){
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
 
                         progressBar.setVisibility(View.INVISIBLE);
-                        userLocalStore.setUserStatus(MobileNo, Nav - 2);
+                        /**
+                         * Note: Nav - 2 change status from mobileVerification to waiting for SMS
+                         */
+                        userLocalStore.setUserStatus(MobileNum, Nav - 2);
                         startActivity(new Intent(mobileVerification.this, otpVerification.class));
 
                     }
@@ -228,8 +297,8 @@ public class mobileVerification extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d("mobileVerification", "Error:" + error.getMessage());
-                Toast.makeText(mobileVerification.this, getString(R.string.network_connection_error),
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(mobileVerification.this, getString(R.string.
+                        network_connection_error), Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.INVISIBLE);
             }
         }){
@@ -239,18 +308,5 @@ public class mobileVerification extends AppCompatActivity {
             }
         };
         appController.addToRequestQueue(stringRequest, tag_mobile_verification);
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-
-        setIntent(intent);
-    }
-
-    @Override
-    protected void onStop(){
-        super.onStop();
-        appController.cancelPendingRequests(tag_mobile_verification);
     }
 }
